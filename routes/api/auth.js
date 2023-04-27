@@ -4,6 +4,24 @@ const md5 = require('md5')
 const jwt = require('jsonwebtoken')
 var router = express.Router();
 
+//注册
+router.post('/reg', (req, res) => {    
+    UserModel.create({ ...req.body, password: md5(req.body.password) }).then((data) => {
+        res.json({
+            code:'0000',
+            msg:"注册成功！",
+            data:null
+        })
+        res.render('success', { msg: '注册成功', url: '/login' })
+    }).catch(() => {
+        res.json({
+            code:'2003',
+            msg:"注册失败",
+            data:null
+        })
+        res.status(500).send('注册失败！')
+    })
+})
 //登录
 router.post('/login',(req, res) => {
     let { username, password } = req.body

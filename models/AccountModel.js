@@ -19,6 +19,10 @@ let AccountSchema = new mongoose.Schema({
     },
     remarks:{
         type:String
+    },
+    tokenid:{
+        type:String,
+        required:true
     }
 })
 

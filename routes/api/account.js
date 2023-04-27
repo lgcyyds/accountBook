@@ -7,7 +7,9 @@ var router = express.Router();
 //首页
 router.get('/account',checkTokenMiddleware, function (req, res, next) {
     // let accounts = db.get('account').value()
-    AccountModel.find().sort({ time: -1 }).exec().then((accounts) => {
+    console.log(req.user);
+    
+    AccountModel.find({tokenid:req.user._id}).sort({ time: -1 }).exec().then((accounts) => {
         res.json({
             code: '0000',
             msg: '读取成功',
@@ -33,6 +35,7 @@ router.post('/account',checkTokenMiddleware, function (req, res, next) {
 
     AccountModel.create({
         ...req.body,
+        tokenid:req.user._id,
         time: moment(req.body.time).toDate()
     }).then((result) => {
         // res.render('success', { msg: '添加成功！', url: '/account' })
@@ -48,7 +51,7 @@ router.post('/account',checkTokenMiddleware, function (req, res, next) {
         res.json({
             code: '1001',
             msg: '新增失败',
-            data: null
+            data: err
         })
 
     })

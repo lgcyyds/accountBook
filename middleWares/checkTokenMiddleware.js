@@ -18,9 +18,7 @@ module.exports = (req, res, next) => {
             })
         }
         //保存用户的信息...这是什么？
-        req.user = data;
-        console.log(data);
-        
+        req.user = data;        
         next()
     })
 }
